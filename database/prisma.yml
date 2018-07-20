@@ -1,0 +1,6 @@
+endpoint: https://eu1.prisma.sh/charlie-oliver-3fc193/database/dev
+datamodel: datamodel.graphql
+secret: mysupercerealsecret
+hooks:
+  post-deploy:
+    - graphql get-schema --project database
