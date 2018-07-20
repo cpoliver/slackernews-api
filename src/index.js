@@ -2,28 +2,11 @@ const R = require('ramda');
 const { GraphQLServer } = require('graphql-yoga');
 const { Prisma } = require('prisma-binding');
 
-const resolvers = {
-    Query: {
-        info: () => 'This is the Slackernews API',
-        feed: (root, args, context, info) => context.db.query.links({}, info),
-    },
-    Mutation: {
-        post: (root, args, context, info) =>
-            context.db.mutation.createLink(
-                {
-                    data: {
-                        url: args.url,
-                        description: args.description,
-                    },
-                },
-                info,
-            ),
-    },
-};
+const resolvers = require('./resolvers');
 
 const server = new GraphQLServer({
-    typeDefs: './src/schema.graphql',
     resolvers,
+    typeDefs: './src/schema.graphql',
     context: R.assoc(
         'db',
         new Prisma({
